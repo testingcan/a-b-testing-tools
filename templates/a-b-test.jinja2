@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends "base.jinja2" %}
+{% block content %}
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Chi<sup>2</sup>-Test
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<form class="form-horizontal" method="post" action="{{ url_for('a_b_test') }}">
+							{{ form.hidden_tag() }}
+								<table class="table">
+									<thead>
+										<th>Version</th>
+										<th>Conversions</th>
+										<th>Non-Conversions</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Original</td>
+											{% if chi2 %}
+												<td><input id="{{ form.original_conversion.id }}" type="text" class="form-control" name="{{ form.original_conversion.name }}" required="required" autofocus="autofocus" value="{{form.original_conversion.data}}">
+												<td><input id="{{ form.original_non_conversion.id }}" type="text" class="form-control" name="{{ form.original_non_conversion.name }}" value="{{form.original_non_conversion.data}}" required="required">
+											{% else %}
+												<td><input id="{{ form.original_conversion.id }}" type="text" class="form-control" name="{{ form.original_conversion.name }}" required="required">
+												<td><input id="{{ form.original_non_conversion.id }}" type="text" class="form-control" name="{{ form.original_non_conversion.name }}" required="required">
+											{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<td>Alternative</td>
+											{% if chi2 %}
+												<td><input id="{{ form.alternative_conversion.id }}" type="text" class="form-control" name="{{ form.alternative_conversion.name }}" required="required" value="{{form.alternative_conversion.data}}">
+												<td><input id="{{ form.alternative_non_conversion.id }}" type="text" class="form-control" name="{{ form.alternative_non_conversion.name }}" value="{{form.alternative_non_conversion.data}}" required="required">
+											{% else %}
+												<td><input id="{{ form.alternative_conversion.id }}" type="text" class="form-control" name="{{ form.alternative_conversion.name }}" required="required">
+												<td><input id="{{ form.alternative_non_conversion.id }}" type="text" class="form-control" name="{{ form.alternative_non_conversion.name }}" required="required">
+											{% endif %}
+
+									</tbody>
+								</table>
+								<div class="col-md-8 col-md-offset-4">
+									<button class="btn btn-primary" type="submit">
+									Berechnen
+									</button>
+								</div>
+								{% if chi2 %}
+								<br>
+								<br>
+								<br>
+									With the given data we get a <strong>Chi<sup>2</sup>-value</strong> of <strong>{{ chi2 }}</strong> with a <strong>p-value</strong> of <strong>{{ p }}</strong>.
+								{% endif %}
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
